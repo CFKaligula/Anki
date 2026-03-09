@@ -1,0 +1,144 @@
+﻿@font-face {
+    font-family: 'noto';
+    src: url('NotoSansJP-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'hana';
+    src: url('_HanaMinA.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    /* Emerald-based palette */
+    --bg: #f0fdf4;
+    /* emerald-50 */
+    --muted: #065f46;
+    /* emerald-800 (main) */
+    --muted-2: #10b981;
+    /* emerald-500 (accent) */
+    --muted-3: #064e3b;
+    /* emerald-900 (text) */
+    --example-bg: #065f46;
+    /* dark emerald for example box */
+    --example-en-bg: #d1fae5;
+    /* light emerald for english panel */
+    --radius: 0.25rem;
+    --gap-sm: 0.5rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    tab-size: 4;
+    font-family: noto, hana, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Front */
+.front-container {
+    background-color: var(--bg);
+    min-height: 100vh;
+}
+
+.front-kanji {
+    color: var(--muted);
+    font-size: 3.5rem;
+    line-height: 1;
+    padding-top: 5rem;
+    border-color: var(--muted);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Back */
+.card {
+    color: var(--muted);
+    background-color: var(--bg);
+    min-height: 100vh;
+}
+
+.kanji {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 0.5rem 0;
+    border-color: var(--muted);
+    border-bottom-width: 4px;
+    display: flex;
+    justify-content: center;
+}
+
+.hiragana {
+    color: var(--muted-2);
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.meaning {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.example-box-container {
+    display: flex;
+    justify-content: center;
+}
+
+.example-box-front,
+.example-box-back,
+.example-box {
+    color: #fff;
+    background-color: var(--example-bg);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+
+
+.example-header {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 0.25rem;
+}
+
+.example-jp {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.25rem;
+}
+
+.example-en {
+    display: block;
+    width: calc(100% + 2rem);
+    margin: 0 -1rem;
+    box-sizing: border-box;
+    color: var(--muted-3);
+    font-style: italic;
+    padding: 0.5rem 1rem;
+    background-color: var(--example-en-bg);
+    border-bottom-right-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+}

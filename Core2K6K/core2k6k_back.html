@@ -15,8 +15,9 @@
         </p>
     </div>
 
+    {{#Expression}}
     <div class="example-box-container">
-        <div class="example-box-back">
+        <div class="example-box example-box--back">
             <h2 class="example-header">
                 Example
             </h2>
@@ -24,9 +25,26 @@
             <div class="example-jp">
                 {{Expression}}
             </div>
+            {{#Sentence-English}}
+            <div class="example-en">
+                {{Sentence-English}}
+            </div>
+            {{/Sentence-English}}
+        </div>
+    </div>
+    {{/Expression}}
+    {{^Expression}}
+    {{#Sentence-English}}
+    <div class="example-box-container">
+        <div class="example-box example-box--back">
+            <h2 class="example-header">
+                Example
+            </h2>
             <div class="example-en">
                 {{Sentence-English}}
             </div>
         </div>
     </div>
+    {{/Sentence-English}}
+    {{/Expression}}
 </div>
