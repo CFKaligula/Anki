@@ -1,0 +1,132 @@
+﻿@font-face {
+    font-family: 'noto';
+    src: url('NotoSansJP-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'hana';
+    src: url('_HanaMinA.ttf') format('truetype');
+}
+
+* {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+    tab-size: 4;
+    font-family: noto, hana, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+}
+
+body {
+    margin: 0;
+}
+
+/* Front */
+.front-container {
+
+    background-color: rgb(248 250 252);
+    height: 100vh;
+}
+
+.front-kanji {
+    color: rgb(100 116 139);
+    font-size: 3.5rem;
+    line-height: 1;
+    padding-top: 5rem;
+    border-color: rgb(100 116 139);
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+/* Back */
+.card {
+    color: rgb(100 116 139);
+    background-color: rgb(248 250 252);
+    /* background-color: rgb(0 0 0); */
+    height: 100vh;
+}
+
+.kanji {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-color: rgb(100 116 139);
+    border-bottom-width: 4px;
+    justify-content: center;
+    display: flex;
+}
+
+.hiragana {
+    color: rgb(148 163 184);
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    justify-content: center;
+    display: flex;
+    margin-top: 1rem;
+}
+
+.meaning {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    justify-content: center;
+    display: flex;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.example-box-container {
+    justify-content: center;
+    display: flex;
+
+}
+
+.example-box-front {
+    color: rgb(255 255 255);
+    background-color: rgb(100 116 139);
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-size: 18px;
+    padding: 0rem 1rem 0rem 1rem;
+}
+
+.example-box-back {
+    color: rgb(255 255 255);
+    background-color: rgb(100 116 139);
+    border-radius: 0.25rem;
+    margin-bottom: 2rem;
+
+}
+
+.example-header {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.example-jp {
+    justify-content: center;
+    display: flex;
+    padding-bottom: 0.25rem;
+}
+
+.example-en {
+    justify-content: center;
+    display: flex;
+    color: rgb(51 65 85);
+    font-style: italic;
+    padding: 0.5rem;
+    background-color: rgb(226 232 240);
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+
+}
