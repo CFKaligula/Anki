@@ -40,7 +40,6 @@ body {
 .pinyin {
     color: var(--pinyin-indigo);
     font-size: 2.8rem;
-
     line-height: 2.5rem;
     display: flex;
     justify-content: center;
@@ -55,9 +54,9 @@ body {
     height: 100vh;
 }
 
-.front-kanji {
-    font-weight: 700;
-    font-family: 'Iansui';
+.front-english {
+    font-weight: 600;
+
     color: var(--primary-indigo);
     font-size: 4rem;
     line-height: 1;
@@ -74,6 +73,18 @@ body {
     height: 100vh;
 }
 
+.back-english {
+    color: var(--primary-indigo);
+    font-size: 2rem;
+    line-height: 2.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-color: var(--accent-indigo);
+    border-bottom: 2px solid var(--accent-indigo);
+    justify-content: center;
+    display: flex;
+}
+
 .kanji {
     font-family: 'Iansui';
     color: var(--primary-indigo);
@@ -82,7 +93,6 @@ body {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     border-color: var(--accent-indigo);
-    border-bottom-width: 2px;
     justify-content: center;
     display: flex;
 }

@@ -5,12 +5,6 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'hana';
-    src: url('_HanaMinA.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
 
 :root {
     /* Emerald-based palette */
@@ -74,11 +68,13 @@ body {
 .kanji {
     font-size: 1.5rem;
     line-height: 2rem;
-    padding: 0.5rem 0;
+    padding: 0.7rem;
     border-color: var(--muted);
     border-bottom-width: 4px;
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
+    border-bottom: 2px solid var(--muted-2);
 }
 
 .hiragana {
@@ -87,7 +83,7 @@ body {
     line-height: 2.5rem;
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+
 }
 
 .meaning {
@@ -113,8 +109,6 @@ body {
     margin-bottom: 2rem;
     padding: 0 1rem;
 }
-
-
 
 .example-header {
     text-transform: uppercase;
