@@ -1,15 +1,12 @@
-﻿<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+﻿<div class="front-container">
+    <div class="front-kanji">{{Kanji}}</div>
 
-<div>
-    <div class="front-container">
-        <div class="front-kanji">
-            {{Kanji}}
-        </div>
-
-        <div class="example-box-container">
-            Example: <br>
-            {{Sentence}}
+    {{#Sentence}}
+    <div class="example-box-container">
+        <div class="example-box">
+            <h2 class="example-header">Example</h2>
+            <div class="example-jp">{{Sentence}}</div>
         </div>
     </div>
-
+    {{/Sentence}}
 </div>
