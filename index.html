@@ -285,6 +285,14 @@
             font-size: 0.78rem;
         }
 
+        #template-status {
+            color: #a23f34;
+        }
+
+        #template-status:empty {
+            display: none;
+        }
+
         .preview-footer kbd {
             padding: 2px 6px;
             border: 1px solid #d6ddd7;
@@ -405,6 +413,7 @@
                 </div>
                 <div class="preview-footer">
                     <span id="side-caption">Question side</span>
+                    <span id="template-status" role="status" aria-live="polite"></span>
                     <span>Press <kbd>Space</kbd> to flip</span>
                 </div>
             </section>
@@ -416,6 +425,8 @@
             {
                 name: "Chinese Reversed",
                 css: "sts_chinese_styling.css",
+                frontFile: "sts_chinese_front.html",
+                backFile: "sts_chinese_back.html",
                 fields: ["English", "Pinyin", "Simplified", "Sentence", "Sentence Translation"],
                 sample: {
                     English: "to notice; to discover",
@@ -423,36 +434,13 @@
                     Simplified: "发现",
                     Sentence: "我发现了一个有趣的地方。",
                     "Sentence Translation": "I discovered an interesting place."
-                },
-                front: `<div>
-    <div class="front-container">
-        <div class="front-english">{{English}}</div>
-        <br>
-        <div class="example-box-container">
-            <div class="example-box">
-                <h2 class="example-header">Example</h2>
-                <div class="example-zh">???</div>
-                <div class="example-en">{{Sentence Translation}}</div>
-            </div>
-        </div>
-    </div>
-</div>`,
-                back: `<div class="card">
-    <div class="back-english">{{English}}</div>
-    <div class="pinyin">{{Pinyin}}</div>
-    <div class="kanji"><p>{{Simplified}}</p></div>
-    <div class="example-box-container">
-        <div class="example-box">
-            <h2 class="example-header">Example</h2>
-            <div class="example-zh">{{Sentence}}</div>
-            <div class="example-en">{{Sentence Translation}}</div>
-        </div>
-    </div>
-</div>`
+                }
             },
             {
                 name: "Core2K6K",
                 css: "core2k6k_styling.css",
+                frontFile: "core2k6k_front.html",
+                backFile: "core2k6k_back.html",
                 fields: ["Vocabulary-Kanji", "Vocabulary-Kana", "Vocabulary-English", "Expression", "Sentence-English"],
                 sample: {
                     "Vocabulary-Kanji": "食べる",
@@ -460,48 +448,13 @@
                     "Vocabulary-English": "to eat",
                     Expression: "朝ごはんを食べる。",
                     "Sentence-English": "I eat breakfast."
-                },
-                front: `<div>
-    <div class="front-container">
-        <div class="front-kanji">{{Vocabulary-Kanji}}</div>
-        {{#Expression}}
-        <div class="example-box-container">
-            <div class="example-box example-box--front">
-                <h2 class="example-header">Example</h2>
-                <div class="example-jp">{{Expression}}</div>
-            </div>
-        </div>
-        {{/Expression}}
-    </div>
-</div>`,
-                back: `<div class="card">
-    <div class="kanji">{{Vocabulary-Kanji}}</div>
-    <div class="hiragana">{{Vocabulary-Kana}}</div>
-    <div class="meaning"><p>{{Vocabulary-English}}</p></div>
-    {{#Expression}}
-    <div class="example-box-container">
-        <div class="example-box example-box--back">
-            <h2 class="example-header">Example</h2>
-            <div class="example-jp">{{Expression}}</div>
-            {{#Sentence-English}}<div class="example-en">{{Sentence-English}}</div>{{/Sentence-English}}
-        </div>
-    </div>
-    {{/Expression}}
-    {{^Expression}}
-    {{#Sentence-English}}
-    <div class="example-box-container">
-        <div class="example-box example-box--back">
-            <h2 class="example-header">Example</h2>
-            <div class="example-en">{{Sentence-English}}</div>
-        </div>
-    </div>
-    {{/Sentence-English}}
-    {{/Expression}}
-</div>`
+                }
             },
             {
                 name: "Manga Derived",
                 css: "mangaderived_styling.css",
+                frontFile: "mangaderived_front.html",
+                backFile: "mangaderived_back.html",
                 fields: ["Kanji", "Hiragana", "Meaning", "Sentence", "Translation"],
                 sample: {
                     Kanji: "約束",
@@ -509,30 +462,13 @@
                     Meaning: "promise; appointment",
                     Sentence: "約束を忘れないで。",
                     Translation: "Don't forget the promise."
-                },
-                front: `<!-- <script src="https://cdn.tailwindcss.com"><\/script> -->
-<div>
-    <div class="front-container">
-        <div class="front-kanji">{{Kanji}}</div>
-        <div class="example-box-container">Example: <br>{{Sentence}}</div>
-    </div>
-</div>`,
-                back: `<div class="card">
-    <div class="kanji">{{Kanji}}</div>
-    <div class="hiragana">{{Hiragana}}</div>
-    <div class="meaning"><p>{{Meaning}}</p></div>
-    <div class="example-box-container">
-        <div class="example-box">
-            <h2 class="example-header">Example</h2>
-            <div class="example-jp">{{Sentence}}</div>
-            <div class="example-en">{{Translation}}</div>
-        </div>
-    </div>
-</div>`
+                }
             },
             {
                 name: "Short-Term Spoken Chinese",
                 css: "sts_chinese_styling.css",
+                frontFile: "sts_chinese_front.html",
+                backFile: "sts_chinese_back.html",
                 fields: ["Simplified", "Pinyin", "English", "Sentence", "Sentence Translation"],
                 sample: {
                     Simplified: "麻烦",
@@ -540,41 +476,19 @@
                     English: "trouble; to trouble someone",
                     Sentence: "麻烦你帮我一下。",
                     "Sentence Translation": "Could you help me for a moment?"
-                },
-                front: `<div>
-    <div class="front-container">
-        <div class="front-kanji">{{Simplified}}</div>
-        <br>
-        <div class="example-box-container">
-            <div class="example-box">
-                <h2 class="example-header">Example</h2>
-                <div class="example-zh">{{Sentence}}</div>
-            </div>
-        </div>
-    </div>
-</div>`,
-                back: `<div class="card">
-    <div class="kanji">{{Simplified}}</div>
-    <div class="pinyin">{{Pinyin}}</div>
-    <div class="meaning"><p>{{English}}</p></div>
-    <div class="example-box-container">
-        <div class="example-box">
-            <h2 class="example-header">Example</h2>
-            <div class="example-zh">{{Sentence}}</div>
-            <div class="example-en">{{Sentence Translation}}</div>
-        </div>
-    </div>
-</div>`
+                }
             }
         ];
 
         const deckSelect = document.querySelector("#deck-select");
         const fieldList = document.querySelector("#field-list");
         const frame = document.querySelector("#card-frame");
+        const templateStatus = document.querySelector("#template-status");
         const sideButtons = [...document.querySelectorAll("[data-side]")];
         let activeDeck = decks[0];
         let activeSide = "front";
         let values = {};
+        let loadSequence = 0;
 
         function escapeHtml(value) {
             return String(value)
@@ -603,12 +517,40 @@
         }
 
         function renderCard() {
-            const template = activeSide === "front" ? activeDeck.front : activeDeck.back;
+            const template = activeDeck.templates?.[activeSide];
+            if (!template) return;
+
             const cssUrl = new URL(`${activeDeck.name}/${activeDeck.css}`, document.location.href).href;
             const cardMarkup = renderAnkiTemplate(template);
             frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${document.location.href}"><link rel="stylesheet" href="${cssUrl}"><style>html,body{min-height:100%;}body{overflow:auto}.front-container,.card{min-height:100%;height:auto;padding-bottom:2rem;}img{max-width:100%;}</style></head><body>${cardMarkup}</body></html>`;
             sideButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.side === activeSide)));
             document.querySelector("#side-caption").textContent = activeSide === "front" ? "Question side" : "Answer side";
+        }
+
+        async function loadDeckTemplates(deck) {
+            const sequence = ++loadSequence;
+            templateStatus.textContent = "Loading template files...";
+            deck.templates = null;
+
+            try {
+                const templateFiles = await Promise.all([deck.frontFile, deck.backFile].map(async file => {
+                    const response = await fetch(`${encodeURIComponent(deck.name)}/${file}`);
+                    if (!response.ok) throw new Error(`Could not load ${file} (${response.status})`);
+                    return response.text();
+                }));
+
+                if (sequence !== loadSequence) return;
+                deck.templates = { front: templateFiles[0], back: templateFiles[1] };
+                templateStatus.textContent = "";
+                renderCard();
+            } catch (error) {
+                if (sequence !== loadSequence) return;
+                templateStatus.textContent = document.location.protocol === "file:"
+                    ? "Open this page through a local web server to load templates."
+                    : `Unable to load ${deck.name} templates. Check that its HTML files are available.`;
+                frame.srcdoc = "<!doctype html><html><body style=\"font:16px sans-serif;color:#64748b;padding:24px\">Template files could not be loaded.</body></html>";
+                console.error(error);
+            }
         }
 
         function renderFields() {
@@ -647,9 +589,10 @@
             deckSelect.append(option);
         });
 
-        deckSelect.addEventListener("change", () => {
+        deckSelect.addEventListener("change", async () => {
             activeDeck = decks[Number(deckSelect.value)];
             renderFields();
+            await loadDeckTemplates(activeDeck);
         });
 
         sideButtons.forEach(button => button.addEventListener("click", () => {
@@ -665,6 +608,7 @@
         });
 
         renderFields();
+        loadDeckTemplates(activeDeck);
     </script>
 </body>
 
