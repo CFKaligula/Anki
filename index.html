@@ -1,0 +1,671 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anki Card Lab</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #202a28;
+            --muted: #687572;
+            --line: #d9e1dc;
+            --paper: #fffefa;
+            --canvas: #f2f5f0;
+            --leaf: #355f50;
+            --leaf-soft: #e1ebe3;
+            --signal: #c75d42;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+            color: var(--ink);
+            background-color: var(--canvas);
+            background-image: radial-gradient(#dbe4dc 0.7px, transparent 0.7px);
+            background-size: 18px 18px;
+            font-family: "Aptos", "Segoe UI", sans-serif;
+        }
+
+        button,
+        select,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .topbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 12px clamp(18px, 4vw, 56px);
+            color: #f6f7f1;
+            background: #263a33;
+        }
+
+        .wordmark {
+            display: flex;
+            align-items: baseline;
+            gap: 11px;
+            white-space: nowrap;
+        }
+
+        .wordmark strong {
+            font-family: Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .wordmark span {
+            color: #b7c8bd;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .deck-picker {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .deck-picker label {
+            color: #c3d0c7;
+            font-size: 0.82rem;
+        }
+
+        select {
+            min-width: 225px;
+            padding: 9px 34px 9px 12px;
+            border: 1px solid #71847a;
+            border-radius: 5px;
+            color: #fff;
+            background: #344b40;
+        }
+
+        main {
+            width: min(1380px, 100%);
+            margin: 0 auto;
+            padding: 34px clamp(18px, 4vw, 56px) 48px;
+        }
+
+        .intro {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow {
+            margin: 0 0 7px;
+            color: var(--signal);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.8rem, 4vw, 2.55rem);
+            font-weight: 500;
+        }
+
+        .intro-note {
+            max-width: 370px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+            align-items: start;
+            gap: 22px;
+        }
+
+        .fields-panel,
+        .preview-panel {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+        }
+
+        .fields-panel {
+            padding: 20px;
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        h2 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .field-count {
+            color: var(--muted);
+            font-size: 0.76rem;
+        }
+
+        .field-list {
+            display: grid;
+            gap: 14px;
+            padding-top: 16px;
+        }
+
+        .field-control {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field-control label {
+            color: #3f4c47;
+            font-size: 0.78rem;
+            font-weight: 650;
+        }
+
+        .field-control input,
+        .field-control textarea {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #cbd5ce;
+            border-radius: 5px;
+            color: var(--ink);
+            background: #fff;
+            line-height: 1.4;
+        }
+
+        .field-control textarea {
+            min-height: 68px;
+            resize: vertical;
+        }
+
+        .field-control input:focus,
+        .field-control textarea:focus,
+        select:focus-visible,
+        button:focus-visible {
+            outline: 3px solid #8db6a1;
+            outline-offset: 2px;
+        }
+
+        .preview-panel {
+            overflow: hidden;
+        }
+
+        .preview-toolbar {
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .preview-title {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .preview-title strong {
+            font-size: 0.92rem;
+        }
+
+        .preview-title span {
+            color: var(--muted);
+            font-size: 0.76rem;
+        }
+
+        .side-switch {
+            display: inline-flex;
+            padding: 3px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #f3f6f2;
+        }
+
+        .side-switch button {
+            min-width: 72px;
+            padding: 7px 10px;
+            border: 0;
+            border-radius: 4px;
+            color: #56635d;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .side-switch button[aria-pressed="true"] {
+            color: #fff;
+            background: var(--leaf);
+        }
+
+        .card-stage {
+            padding: clamp(12px, 2.5vw, 26px);
+            background: #e9eee8;
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            height: clamp(420px, 64vh, 680px);
+            border: 1px solid #d7dfd8;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .preview-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 12px 18px;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .preview-footer kbd {
+            padding: 2px 6px;
+            border: 1px solid #d6ddd7;
+            border-radius: 4px;
+            color: #3c4943;
+            background: #f8faf7;
+            font-family: inherit;
+        }
+
+        @media (max-width: 800px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .deck-picker {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            select {
+                flex: 1;
+                min-width: 0;
+                max-width: 360px;
+            }
+
+            .intro {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .fields-panel {
+                order: 2;
+            }
+
+            .preview-panel {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding-top: 24px;
+            }
+
+            .deck-picker {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            select {
+                width: 100%;
+                max-width: none;
+            }
+
+            .preview-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .preview-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            iframe {
+                height: 58vh;
+                min-height: 390px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="wordmark"><strong>Card Lab</strong><span>Anki template preview</span></div>
+        <div class="deck-picker">
+            <label for="deck-select">Template folder</label>
+            <select id="deck-select" aria-label="Choose an Anki template folder"></select>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">Study card / live preview</p>
+                <h1 id="page-title">Template preview</h1>
+            </div>
+            <p class="intro-note">Edit the example note fields to see how each folder's card template and styling
+                behave.</p>
+        </section>
+
+        <div class="workspace">
+            <section class="fields-panel" aria-labelledby="fields-title">
+                <div class="panel-heading">
+                    <h2 id="fields-title">Sample note</h2>
+                    <span class="field-count" id="field-count"></span>
+                </div>
+                <div class="field-list" id="field-list"></div>
+            </section>
+
+            <section class="preview-panel" aria-label="Card preview">
+                <div class="preview-toolbar">
+                    <div class="preview-title"><strong id="deck-name"></strong><span>Example note</span></div>
+                    <div class="side-switch" role="group" aria-label="Card side">
+                        <button type="button" data-side="front" aria-pressed="true">Front</button>
+                        <button type="button" data-side="back" aria-pressed="false">Back</button>
+                    </div>
+                </div>
+                <div class="card-stage">
+                    <iframe id="card-frame" title="Rendered Anki card"></iframe>
+                </div>
+                <div class="preview-footer">
+                    <span id="side-caption">Question side</span>
+                    <span>Press <kbd>Space</kbd> to flip</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const decks = [
+            {
+                name: "Chinese Reversed",
+                css: "sts_chinese_styling.css",
+                fields: ["English", "Pinyin", "Simplified", "Sentence", "Sentence Translation"],
+                sample: {
+                    English: "to notice; to discover",
+                    Pinyin: "fāxiàn",
+                    Simplified: "发现",
+                    Sentence: "我发现了一个有趣的地方。",
+                    "Sentence Translation": "I discovered an interesting place."
+                },
+                front: `<div>
+    <div class="front-container">
+        <div class="front-english">{{English}}</div>
+        <br>
+        <div class="example-box-container">
+            <div class="example-box">
+                <h2 class="example-header">Example</h2>
+                <div class="example-zh">???</div>
+                <div class="example-en">{{Sentence Translation}}</div>
+            </div>
+        </div>
+    </div>
+</div>`,
+                back: `<div class="card">
+    <div class="back-english">{{English}}</div>
+    <div class="pinyin">{{Pinyin}}</div>
+    <div class="kanji"><p>{{Simplified}}</p></div>
+    <div class="example-box-container">
+        <div class="example-box">
+            <h2 class="example-header">Example</h2>
+            <div class="example-zh">{{Sentence}}</div>
+            <div class="example-en">{{Sentence Translation}}</div>
+        </div>
+    </div>
+</div>`
+            },
+            {
+                name: "Core2K6K",
+                css: "core2k6k_styling.css",
+                fields: ["Vocabulary-Kanji", "Vocabulary-Kana", "Vocabulary-English", "Expression", "Sentence-English"],
+                sample: {
+                    "Vocabulary-Kanji": "食べる",
+                    "Vocabulary-Kana": "たべる",
+                    "Vocabulary-English": "to eat",
+                    Expression: "朝ごはんを食べる。",
+                    "Sentence-English": "I eat breakfast."
+                },
+                front: `<div>
+    <div class="front-container">
+        <div class="front-kanji">{{Vocabulary-Kanji}}</div>
+        {{#Expression}}
+        <div class="example-box-container">
+            <div class="example-box example-box--front">
+                <h2 class="example-header">Example</h2>
+                <div class="example-jp">{{Expression}}</div>
+            </div>
+        </div>
+        {{/Expression}}
+    </div>
+</div>`,
+                back: `<div class="card">
+    <div class="kanji">{{Vocabulary-Kanji}}</div>
+    <div class="hiragana">{{Vocabulary-Kana}}</div>
+    <div class="meaning"><p>{{Vocabulary-English}}</p></div>
+    {{#Expression}}
+    <div class="example-box-container">
+        <div class="example-box example-box--back">
+            <h2 class="example-header">Example</h2>
+            <div class="example-jp">{{Expression}}</div>
+            {{#Sentence-English}}<div class="example-en">{{Sentence-English}}</div>{{/Sentence-English}}
+        </div>
+    </div>
+    {{/Expression}}
+    {{^Expression}}
+    {{#Sentence-English}}
+    <div class="example-box-container">
+        <div class="example-box example-box--back">
+            <h2 class="example-header">Example</h2>
+            <div class="example-en">{{Sentence-English}}</div>
+        </div>
+    </div>
+    {{/Sentence-English}}
+    {{/Expression}}
+</div>`
+            },
+            {
+                name: "Manga Derived",
+                css: "mangaderived_styling.css",
+                fields: ["Kanji", "Hiragana", "Meaning", "Sentence", "Translation"],
+                sample: {
+                    Kanji: "約束",
+                    Hiragana: "やくそく",
+                    Meaning: "promise; appointment",
+                    Sentence: "約束を忘れないで。",
+                    Translation: "Don't forget the promise."
+                },
+                front: `<!-- <script src="https://cdn.tailwindcss.com"><\/script> -->
+<div>
+    <div class="front-container">
+        <div class="front-kanji">{{Kanji}}</div>
+        <div class="example-box-container">Example: <br>{{Sentence}}</div>
+    </div>
+</div>`,
+                back: `<div class="card">
+    <div class="kanji">{{Kanji}}</div>
+    <div class="hiragana">{{Hiragana}}</div>
+    <div class="meaning"><p>{{Meaning}}</p></div>
+    <div class="example-box-container">
+        <div class="example-box">
+            <h2 class="example-header">Example</h2>
+            <div class="example-jp">{{Sentence}}</div>
+            <div class="example-en">{{Translation}}</div>
+        </div>
+    </div>
+</div>`
+            },
+            {
+                name: "Short-Term Spoken Chinese",
+                css: "sts_chinese_styling.css",
+                fields: ["Simplified", "Pinyin", "English", "Sentence", "Sentence Translation"],
+                sample: {
+                    Simplified: "麻烦",
+                    Pinyin: "máfan",
+                    English: "trouble; to trouble someone",
+                    Sentence: "麻烦你帮我一下。",
+                    "Sentence Translation": "Could you help me for a moment?"
+                },
+                front: `<div>
+    <div class="front-container">
+        <div class="front-kanji">{{Simplified}}</div>
+        <br>
+        <div class="example-box-container">
+            <div class="example-box">
+                <h2 class="example-header">Example</h2>
+                <div class="example-zh">{{Sentence}}</div>
+            </div>
+        </div>
+    </div>
+</div>`,
+                back: `<div class="card">
+    <div class="kanji">{{Simplified}}</div>
+    <div class="pinyin">{{Pinyin}}</div>
+    <div class="meaning"><p>{{English}}</p></div>
+    <div class="example-box-container">
+        <div class="example-box">
+            <h2 class="example-header">Example</h2>
+            <div class="example-zh">{{Sentence}}</div>
+            <div class="example-en">{{Sentence Translation}}</div>
+        </div>
+    </div>
+</div>`
+            }
+        ];
+
+        const deckSelect = document.querySelector("#deck-select");
+        const fieldList = document.querySelector("#field-list");
+        const frame = document.querySelector("#card-frame");
+        const sideButtons = [...document.querySelectorAll("[data-side]")];
+        let activeDeck = decks[0];
+        let activeSide = "front";
+        let values = {};
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;")
+                .replaceAll("\n", "<br>");
+        }
+
+        function renderAnkiTemplate(template) {
+            let rendered = template;
+            const sectionPattern = /{{([#^])([^{}]+)}}([\s\S]*?){{\/\2}}/g;
+            let previous;
+
+            do {
+                previous = rendered;
+                rendered = rendered.replace(sectionPattern, (_, marker, field, content) => {
+                    const hasValue = Boolean(values[field.trim()]?.trim());
+                    return (marker === "#" ? hasValue : !hasValue) ? content : "";
+                });
+            } while (rendered !== previous && /{{[#^][^{}]+}}/.test(rendered));
+
+            return rendered.replace(/{{([^{}]+)}}/g, (_, field) => escapeHtml(values[field.trim()] ?? ""));
+        }
+
+        function renderCard() {
+            const template = activeSide === "front" ? activeDeck.front : activeDeck.back;
+            const cssUrl = new URL(`${activeDeck.name}/${activeDeck.css}`, document.location.href).href;
+            const cardMarkup = renderAnkiTemplate(template);
+            frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${document.location.href}"><link rel="stylesheet" href="${cssUrl}"><style>html,body{min-height:100%;}body{overflow:auto}.front-container,.card{min-height:100%;height:auto;padding-bottom:2rem;}img{max-width:100%;}</style></head><body>${cardMarkup}</body></html>`;
+            sideButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.side === activeSide)));
+            document.querySelector("#side-caption").textContent = activeSide === "front" ? "Question side" : "Answer side";
+        }
+
+        function renderFields() {
+            values = { ...activeDeck.sample };
+            fieldList.replaceChildren();
+            document.querySelector("#deck-name").textContent = activeDeck.name;
+            document.querySelector("#field-count").textContent = `${activeDeck.fields.length} fields`;
+
+            activeDeck.fields.forEach(field => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "field-control";
+                const label = document.createElement("label");
+                const control = document.createElement(field.includes("Sentence") || field === "Expression" ? "textarea" : "input");
+                const id = `field-${activeDeck.fields.indexOf(field)}`;
+                label.htmlFor = id;
+                label.textContent = field;
+                control.id = id;
+                if (control.tagName === "INPUT") control.type = "text";
+                control.value = values[field] ?? "";
+                control.addEventListener("input", () => {
+                    values[field] = control.value;
+                    renderCard();
+                });
+                wrapper.append(label, control);
+                fieldList.append(wrapper);
+            });
+
+            activeSide = "front";
+            renderCard();
+        }
+
+        decks.forEach((deck, index) => {
+            const option = document.createElement("option");
+            option.value = String(index);
+            option.textContent = deck.name;
+            deckSelect.append(option);
+        });
+
+        deckSelect.addEventListener("change", () => {
+            activeDeck = decks[Number(deckSelect.value)];
+            renderFields();
+        });
+
+        sideButtons.forEach(button => button.addEventListener("click", () => {
+            activeSide = button.dataset.side;
+            renderCard();
+        }));
+
+        document.addEventListener("keydown", event => {
+            if (event.code !== "Space" || event.target.matches("input, textarea, select, button")) return;
+            event.preventDefault();
+            activeSide = activeSide === "front" ? "back" : "front";
+            renderCard();
+        });
+
+        renderFields();
+    </script>
+</body>
+
+</html>
